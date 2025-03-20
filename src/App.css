@@ -40,3 +40,112 @@
 .read-the-docs {
   color: #888;
 }
+
+/* BEM CSS */
+
+.list-item {
+  border: 1px solid #ddd;
+  padding: 16px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+
+.list-item__title {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.list-item__summary {
+  margin-bottom: 12px;
+  color: #555;
+}
+
+.list-item__user {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.list-item__user-name {
+  font-weight: 600;
+  margin-right: 8px;
+}
+
+.list-item__categories {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.list-item__category {
+  background-color: #f0f0f0;
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin-right: 4px;
+  margin-bottom: 4px;
+  font-size: 0.8em;
+}
+
+.list-item__created-at {
+  font-size: 0.8em;
+  color: #888;
+}
+
+/* PostForm.css */
+
+.post-form {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.post-form input[type="text"],
+.post-form textarea {
+  width: calc(100% - 22px); /* Adjust for padding and border */
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box; /* Include padding and border in width */
+}
+
+.post-form textarea {
+  min-height: 150px;
+  resize: vertical; /* Allow vertical resizing */
+}
+
+.post-form button[type="submit"] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.post-form button[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+.post-form input[type="text"]:focus,
+.post-form textarea:focus,
+.post-form button[type="submit"]:focus {
+  outline: none;
+  border-color: #66afe9;
+  box-shadow: 0 0 5px rgba(102, 175, 233, 0.5);
+}
+
+.post-form input[type="text"]:required:invalid,
+.post-form textarea:required:invalid {
+    border-color: #a94442;
+}
+
+.post-form input[type="text"]:required:valid,
+.post-form textarea:required:valid {
+    border-color: #3c763d;
+}
