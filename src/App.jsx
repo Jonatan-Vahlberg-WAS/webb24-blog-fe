@@ -1,4 +1,5 @@
 import './App.css'
+import AuthForm from './components/AuthForm'
 import PostForm from './components/PostForm'
 import PostItem from './components/PostItem'
 import { useBlogPosts } from './contexts/posts'
@@ -12,6 +13,7 @@ function App() {
       <h1>
         Blog
       </h1>
+      <AuthForm/>
       <div>
         {blogPosts.posts.map(post => (
           <PostItem

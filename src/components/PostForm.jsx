@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useBlogPosts } from "../contexts/posts";
+import { useUser } from "../contexts/user";
 
 const TEMP_USER = "67d2a056199c3fb9537f303f";
 
 const PostForm = () => {
+    const user = useUser()
   const blogPosts = useBlogPosts();
 
   const [title, setTitle] = useState("");
@@ -15,7 +17,7 @@ const PostForm = () => {
       {
         title,
         content,
-        user: TEMP_USER,
+        user: user.userId,
         categories: [],
       },
       () => {
@@ -24,6 +26,14 @@ const PostForm = () => {
       }
     );
   };
+
+  if(!user.userId) {
+    return (
+        <div>
+            You are not logged in
+        </div>
+    )
+  }
 
   return (
     <form

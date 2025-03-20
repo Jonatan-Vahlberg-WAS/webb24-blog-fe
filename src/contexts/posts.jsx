@@ -40,8 +40,7 @@ export const BlogPostProvider = ({ children }) => {
       headers: { "Content-Type": "application/json" },
     });
     if (response.status === 201) {
-      const newPost = await response.json();
-      setPosts((state) => [newPost, ...state]);
+      getPosts()
       onSuccess();
     }
   };
