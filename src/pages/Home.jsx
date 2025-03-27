@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { useBlogPosts } from "../contexts/posts";
-import AuthForm from "../components/AuthForm";
 import PostItem from "../components/PostItem";
 import PostForm from "../components/PostForm";
 import { useUser } from "../contexts/user";
@@ -28,7 +27,6 @@ function Home() {
       </nav>
       <main>
         <h1>Blog</h1>
-        <AuthForm />
         <div>
           {blogPosts.posts.map((post) => (
             <PostItem key={post._id} post={post} />
