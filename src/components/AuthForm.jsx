@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useUser } from "../contexts/user";
+import { useNavigate } from "react-router-dom";
 
 const AuthForm = () => {
+  const navigate = useNavigate();
   const user = useUser();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -9,7 +11,9 @@ const AuthForm = () => {
   const [isLoginMode, setIsLoginMode] = useState(true);
 
   const login = () => {
-    user.actions.login(email, password);
+    user.actions.login(email, password, () => {
+      navigate("/");
+    });
   };
   const register = () => {
     user.actions.register(email, password, name);

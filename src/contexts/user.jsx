@@ -3,7 +3,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 const defaultState = {
   userId: null,
   actions: {
-    login: (email, password) => Promise.resolve(),
+    login: (email, password, onSuccess = () => {}) => Promise.resolve(),
     register: (email, password, name) => Promise.resolve(),
     logout: () => {}
   },
@@ -23,7 +23,7 @@ export const UserProvider = ({ children }) => {
     }
   }, []);
 
-  const login = async (_email, _password) => {
+  const login = async (_email, _password, onSuccess = () => {}) => {
     try {
       const response = await fetch("http://localhost:3000/auth/login", {
         method: "POST",
@@ -36,6 +36,7 @@ export const UserProvider = ({ children }) => {
       const data = await response.json();
       console.log(data);
       localStorage.setItem("BLOG:userId", data._id);
+      onSuccess();
       return;
     }
     } catch (error) {
@@ -49,6 +50,9 @@ export const UserProvider = ({ children }) => {
       const response = await fetch("http://localhost:3000/auth/register", {
         method: "POST",
         body: JSON.stringify({ email, password, name }),
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
       if (response.ok) {
         alert("Register successful you can now login");
