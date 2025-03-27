@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react"
+import { createContext, useContext, useEffect, useState } from "react"
 import { useUser } from "./user"
 
 
@@ -15,6 +15,10 @@ const CommentContext = createContext(defaultState)
 const CommentProvider = ({postId, children}) => {
     const user = useUser()
     const [comments, setComments] = useState(defaultState.comments)
+
+    useEffect(() => {
+        getComments()
+    },[])
 
     const getComments = async () => {
         const url = new URL(`${import.meta.env.VITE_BACKEND_URL}/api/comments/posts/${postId}/comments/`);
