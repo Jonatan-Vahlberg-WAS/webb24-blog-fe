@@ -2,8 +2,10 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 const defaultState = {
   posts: [],
+  post: null,
   actions: {
     getPosts: () => Promise.resolve(),
+    getPost: (_id) => Promise.resolve(),
     createPost: (
       // eslint-disable-next-line no-unused-vars
       postData,
@@ -18,7 +20,7 @@ const BlogPostContext = createContext(defaultState);
 
 export const BlogPostProvider = ({ children }) => {
   const [posts, setPosts] = useState(defaultState.posts);
-
+  const [post, setPost] = useState(defaultState.post);
   useEffect(() => {
     getPosts();
   }, []);
@@ -29,6 +31,15 @@ export const BlogPostProvider = ({ children }) => {
     if (response.status === 200) {
       const posts = await response.json();
       setPosts(posts);
+    }
+  };
+
+  const getPost = async (_id) => {
+    const url = new URL(`${import.meta.env.VITE_BACKEND_URL}/api/posts/${_id}`);
+    const response = await fetch(url);
+    if (response.status === 200) {
+      const post = await response.json();
+      setPost(post);
     }
   };
 
@@ -61,8 +72,10 @@ export const BlogPostProvider = ({ children }) => {
     <BlogPostContext.Provider
       value={{
         posts,
+        post,
         actions: {
           getPosts,
+          getPost,
           createPost,
           deletePost
         },

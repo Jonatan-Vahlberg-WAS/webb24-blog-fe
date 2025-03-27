@@ -3,24 +3,69 @@ import { useUser } from "../contexts/user";
 
 const AuthForm = () => {
   const user = useUser();
-  const [userId, setUserId] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [isLoginMode, setIsLoginMode] = useState(true);
+
   const login = () => {
-    user.actions.login(userId);
+    user.actions.login(email, password);
+  };
+  const register = () => {
+    user.actions.register(email, password, name);
   };
 
   return (
     <div>
       <div>
-        <input
-          type="text"
-          value={userId}
-          onChange={(e) => {
-            setUserId(e.target.value);
-          }}
-        />
-        <button type="button" onClick={login}>
-          Login
-        </button>
+        <div>
+          <input
+            type="text"
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+            placeholder="Enter your email"
+            required
+          />
+        </div>
+        <div>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+            placeholder="······"
+            required
+          />
+        </div>
+        {!isLoginMode && (
+          <div>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => {
+                setName(e.target.value);
+              }}
+              placeholder="Enter your name"
+              required
+            />
+          </div>
+        )}
+        <div>
+          <button type="button" onClick={isLoginMode ? login : register}>
+            {isLoginMode ? "Login" : "Register"}
+          </button>
+        </div>
+        <p>
+          {isLoginMode ? "Don't have an account?" : "Already have an account?"}
+        </p>
+        <div>
+          <button type="button" onClick={() => setIsLoginMode(!isLoginMode)}>
+            {isLoginMode ? "Register" : "Login"}
+          </button>
+        </div>
       </div>
     </div>
   );

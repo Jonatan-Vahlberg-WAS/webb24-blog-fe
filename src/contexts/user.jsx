@@ -3,7 +3,9 @@ import { createContext, useContext, useEffect, useState } from "react";
 const defaultState = {
   userId: null,
   actions: {
-    login: (userId) => {}, //TODO: implement actual login
+    login: (email, password) => Promise.resolve(),
+    register: (email, password, name) => Promise.resolve(),
+    logout: () => {}
   },
 };
 
@@ -21,17 +23,48 @@ export const UserProvider = ({ children }) => {
     }
   }, []);
 
-  const login = (_userId) => {
-    //TODO: handle login to backend
-    setUserId(_userId);
-
-    //TODO: If login is successful set localstorage of userId
-    localStorage.setItem("BLOG:userId", _userId);
+  const login = async (_email, _password) => {
+    try {
+      const response = await fetch("http://localhost:3000/auth/login", {
+        method: "POST",
+        body: JSON.stringify({ email: _email, password: _password }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data);
+      localStorage.setItem("BLOG:userId", data._id);
+      return;
+    }
+    } catch (error) {
+      console.error(error);
+      alert("Login failed");
+    }
   };
 
-  //TODO: Handle register
+  const register = async (email, password, name) => {
+    try {
+      const response = await fetch("http://localhost:3000/auth/register", {
+        method: "POST",
+        body: JSON.stringify({ email, password, name }),
+      });
+      if (response.ok) {
+        alert("Register successful you can now login");
+        return;
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Register failed");
+    }
+  };
 
   //TODO: Handle logout
+  const logout = () => {
+    localStorage.removeItem("BLOG:userId");
+    setUserId(null);
+  };
 
   return (
     <UserContext.Provider
@@ -39,6 +72,8 @@ export const UserProvider = ({ children }) => {
         userId,
         actions: {
           login,
+          register,
+          logout,
         },
       }}
     >
