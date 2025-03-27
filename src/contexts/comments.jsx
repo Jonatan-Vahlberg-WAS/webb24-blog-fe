@@ -37,11 +37,13 @@ const CommentProvider = ({postId, children}) => {
 
             const url = new URL(`${import.meta.env.VITE_BACKEND_URL}/api/comments/posts/${postId}/comments/`);
             const response = await fetch(url,{
+                method: "POST",
                 body: JSON.stringify({
                     content,
                     post: postId,
                     user: user.userId
-                })
+                }),
+                headers: { "Content-Type": "application/json" },
             })
             if(response.ok) {
                 getComments()
