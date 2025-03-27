@@ -66,7 +66,7 @@ const CommentProvider = ({postId, children}) => {
 }
 
 const useComments = () => {
-    const comments = useContext(comments)
+    const comments = useContext(CommentContext)
     return comments
 }
 
