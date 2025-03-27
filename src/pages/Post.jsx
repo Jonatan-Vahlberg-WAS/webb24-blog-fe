@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { useBlogPosts } from "../contexts/posts";
 import { useEffect } from "react";
+import { CommentProvider } from "../contexts/comments";
 
 function Post() {
   const { id } = useParams();
@@ -24,6 +25,9 @@ function Post() {
           <p>{blogPosts.post.content}</p>
         </div>
       )}
+      <CommentProvider postId={id}>
+        :)
+      </CommentProvider>
       <Link to="/">Back to Home</Link>
     </div>
   );
