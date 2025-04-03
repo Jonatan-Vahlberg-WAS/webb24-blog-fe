@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { useUser } from "./user";
 
 const defaultState = {
   posts: [],
@@ -19,6 +20,8 @@ const defaultState = {
 const BlogPostContext = createContext(defaultState);
 
 export const BlogPostProvider = ({ children }) => {
+  const user = useUser()
+
   const [posts, setPosts] = useState(defaultState.posts);
   const [post, setPost] = useState(defaultState.post);
   useEffect(() => {
@@ -48,7 +51,10 @@ export const BlogPostProvider = ({ children }) => {
     const response = await fetch(url, {
       method: "POST",
       body: JSON.stringify(postData),
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json",
+        "Authorization": user.actions.getAuthorizationHeader() 
+      },
     });
     if (response.status === 201) {
       getPosts()

@@ -8,17 +8,20 @@ function Home() {
   const user = useUser();
   const blogPosts = useBlogPosts();
 
+  const isLoggedIn = user.user
+
   return (
     <div>
-      <h1>Welcome to the Home Page</h1>
+      {!isLoggedIn && <h1>Welcome to the Home Page</h1>}
+      {isLoggedIn && <h1>Welcome Back {user.user.name}</h1>}
       <nav>
         <ul>
-          {user.userId && (
+          {isLoggedIn && (
             <li>
               <button onClick={user.actions.logout}>Logout</button>
             </li>
           )}
-          {!user.userId && (
+          {!isLoggedIn && (
             <li>
               <Link to="/login">Go to Login</Link>
             </li>
