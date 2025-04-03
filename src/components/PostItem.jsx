@@ -16,8 +16,8 @@ const PostItem = ({ post }) => {
           </div>
         )}
         <div className="list-item__categories">
-        {categories.map((cat, i) => (
-          <span key={i} className="list-item__category">{cat}</span>
+        {categories.map((category, i) => (
+          <span key={i} className="list-item__category">{category.name}</span>
         ))}
       </div>
       <div className="list-item__created-at">{date}</div>
