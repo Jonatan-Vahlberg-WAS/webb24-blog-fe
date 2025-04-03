@@ -1,18 +1,25 @@
 import { Link } from "react-router-dom";
 import { useBlogPosts } from "../contexts/posts";
+import { useUser } from "../contexts/user";
 
 const PostItem = ({ post }) => {
+  const user = useUser()
   const blogPosts = useBlogPosts();
-  const { title, user, categories, createdAt } = post;
+  const { title, user:author, categories, createdAt } = post;
   const date = new Date(createdAt).toLocaleDateString();
+
+  const isAdmin = user.user?.isAdmin
+  const isAuthor = user.user?._id === author._id
+
+  const canDelete = isAdmin || isAuthor;
 
   return (
     <Link to={`/posts/${post._id}`}>
       <div className="list-item">
         <div className="list-item__title">{title}</div>
-        {user && (
+        {author && (
           <div className="list-item__user">
-            {user.name} ({user.email})
+            {author.name} ({author.email})
           </div>
         )}
         <div className="list-item__categories">
@@ -21,7 +28,7 @@ const PostItem = ({ post }) => {
         ))}
       </div>
       <div className="list-item__created-at">{date}</div>
-      <button
+     {canDelete &&  <button
         type="button"
         onClick={(e) => {
           e.preventDefault();
@@ -30,7 +37,7 @@ const PostItem = ({ post }) => {
         }}
       >
         Delete
-        </button>
+        </button>}
       </div>
     </Link>
   );

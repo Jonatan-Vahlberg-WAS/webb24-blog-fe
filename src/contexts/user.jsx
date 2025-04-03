@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { getTokenFromStorage, removeTokenFromStorage, setTokenInStorage } from "../utils/storageKit";
+import { getRefreshTokenFromStorage, getTokenFromStorage, removeTokenFromStorage, setRefreshTokenInStorage, setTokenInStorage } from "../utils/storageKit";
 
 const defaultState = {
   userId: null,
@@ -51,6 +51,7 @@ export const UserProvider = ({ children }) => {
       const data = await response.json();
       console.log(data);
       setTokenInStorage(data.token)
+      setRefreshTokenInStorage(data.refreshToken)
       setToken(data.token)
       onSuccess();
       return;
@@ -98,8 +99,36 @@ export const UserProvider = ({ children }) => {
         console.log(user)
         return;
       }
+      if(response.status === 401) {
+        console.log("Token expired")
+        refreshAccessToken()
+      }
     } catch(error) {
       console.warn("Error getting user", error)
+    }
+  }
+
+  const refreshAccessToken = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/auth/token/refresh", {
+        method: "POST",
+        body: JSON.stringify({
+          token: getRefreshTokenFromStorage()
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        }
+      });
+      if (response.ok) {
+        const data = await response.json()
+        setTokenInStorage(data.token)
+        setToken(data.token)
+        return;
+      }
+      // logout()
+    } catch (error) {
+      console.error(error);
+      // logout()
     }
   }
 

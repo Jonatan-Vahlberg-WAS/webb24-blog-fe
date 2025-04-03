@@ -66,6 +66,9 @@ export const BlogPostProvider = ({ children }) => {
     const url = new URL(`${import.meta.env.VITE_BACKEND_URL}/api/posts/${_id}`);
     const response = await fetch(url, {
       method: "DELETE",
+      headers: { 
+        "Authorization": user.actions.getAuthorizationHeader() 
+      },
     });
 
     if(response.status === 200) {
