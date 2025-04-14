@@ -30,7 +30,7 @@ const CommentProvider = ({postId, children}) => {
     }
 
     const createComment = async (content, onSuccess = () => {}) => {
-        if(!user.userId) {
+        if(!user.user) {
             return 
         }
         try {
@@ -43,7 +43,10 @@ const CommentProvider = ({postId, children}) => {
                     post: postId,
                     user: user.userId
                 }),
-                headers: { "Content-Type": "application/json" },
+                headers: { 
+                    "Content-Type": "application/json",
+                    "Authorization": user.actions.getAuthorizationHeader() 
+            },
             })
             if(response.ok) {
                 getComments()

@@ -33,7 +33,7 @@ const Comments = () => {
           </p>
         </div>
       ))}
-      {user.userId && (
+      {user.user && (
         <form id="comment-form" onSubmit={onSubmit}>
           <textarea
             value={content}
@@ -45,7 +45,7 @@ const Comments = () => {
           <button disabled={!content}>Create comment</button>
         </form>
       )}
-      {!user.userId && <div>You are not logged in</div>}
+      {!user.user && <div>You are not logged in</div>}
     </div>
   );
 };
