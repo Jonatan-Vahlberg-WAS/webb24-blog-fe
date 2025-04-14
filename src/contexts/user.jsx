@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { getRefreshTokenFromStorage, getTokenFromStorage, removeTokenFromStorage, setRefreshTokenInStorage, setTokenInStorage } from "../utils/storageKit";
+import { getRefreshTokenFromStorage, getTokenFromStorage, removeRefreshTokenFromStorage, removeTokenFromStorage, setRefreshTokenInStorage, setTokenInStorage } from "../utils/storageKit";
 
 const defaultState = {
   userId: null,
@@ -125,15 +125,16 @@ export const UserProvider = ({ children }) => {
         setToken(data.token)
         return;
       }
-      // logout()
+      logout()
     } catch (error) {
       console.error(error);
-      // logout()
+      logout()
     }
   }
 
   const logout = () => {
     removeTokenFromStorage()
+    removeRefreshTokenFromStorage()
     setToken(null);
     setUser(null)
   };
